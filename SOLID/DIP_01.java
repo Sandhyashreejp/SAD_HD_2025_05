@@ -28,7 +28,7 @@ public class DIP_01 {
     public static class Switch {
         private Device device;
 
-        // Dependency Injection via abstraction
+        
         public Switch(Device device) {
             this.device = device;
         }
