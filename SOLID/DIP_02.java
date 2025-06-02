@@ -3,9 +3,9 @@ package SOLID;
 public class DIP_02 {
 
     /*
-     * TASK:
-     * The class Employee violates the DIP (Dependency Inversion Principle).
-     * Fix this!
+     * FIXED:
+     * The Employee class now depends on the Notification interface (abstraction),
+     * not the concrete EmailNotification class. This follows the DIP.
      */
     
     public static interface Notification {
@@ -19,21 +19,21 @@ public class DIP_02 {
         }
     }
 
+    // High-level module depends on abstraction
     public static class Employee {
-        private EmailNotification emailNotification;
+        private Notification notification;
 
-        // Dependency Injection (again) composition
-        public Employee(EmailNotification emailNotification) {
-            this.emailNotification = emailNotification;
+        public Employee(Notification notification) {
+            this.notification = notification;
         }
-    
+
         public void notifyEmployee() {
-            emailNotification.doNotify();
+            notification.doNotify();
         }
     }
 
     public static void main(String[] args) {
-        EmailNotification emailNotification = new EmailNotification();
+        Notification emailNotification = new EmailNotification(); // programming to interface
         Employee employee = new Employee(emailNotification);
         employee.notifyEmployee();
     }
