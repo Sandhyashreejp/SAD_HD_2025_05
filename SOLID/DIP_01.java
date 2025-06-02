@@ -3,12 +3,19 @@ package SOLID;
 public class DIP_01 {
 
     /*
-     * TASK:
-     * The Switch is violating the DIP (Dependency Inversion Principle).
-     * Please fix this!
+     * FIXED:
+     * The Switch now depends on an interface (Device), not the concrete LightBulb.
+     * This follows the Dependency Inversion Principle.
      */
-    
-    public static class LightBulb {
+
+    // Abstraction
+    public interface Device {
+        void turnOn();
+        void turnOff();
+    }
+
+    // Low-level module
+    public static class LightBulb implements Device {
         public void turnOn() {
             System.out.println("Light is ON!");
         }
@@ -17,22 +24,23 @@ public class DIP_01 {
         }
     }
 
+    // High-level module
     public static class Switch {
-        private LightBulb lightBulb;
+        private Device device;
 
-        // this is "Dependency Injection" (composition style)
-        public Switch(LightBulb lightBulb) {
-            this.lightBulb = lightBulb;
+        // Dependency Injection via abstraction
+        public Switch(Device device) {
+            this.device = device;
         }
 
         public void operate() {
-            lightBulb.turnOn();
+            device.turnOn(); // could also be logic to toggle
         }
     }
 
     public static void main(String[] args) {
-        LightBulb lightBulb = new LightBulb();
+        Device lightBulb = new LightBulb(); // code to interface
         Switch lightSwitch = new Switch(lightBulb);
-        lightSwitch.operate();
+        lightSwitch.operate(); // prints "Light is ON!"
     }
 }
