@@ -2,45 +2,36 @@ package SOLID;
 
 public class DIP_01 {
 
-    /*
-     * FIXED:
-     * The Switch now depends on an interface (Device), not the concrete LightBulb.
-     * This follows the Dependency Inversion Principle.
-     */
-
-    // Abstraction
     public interface Device {
         void turnOn();
         void turnOff();
     }
 
-    // Low-level module
     public static class LightBulb implements Device {
         public void turnOn() {
             System.out.println("Light is ON!");
         }
+
         public void turnOff() {
             System.out.println("Light is OFF!");
         }
     }
 
-    // High-level module
     public static class Switch {
-        private Device device;
+        private final Device connectedDevice;
 
-        
         public Switch(Device device) {
-            this.device = device;
+            this.connectedDevice = device;
         }
 
         public void operate() {
-            device.turnOn(); // could also be logic to toggle
+            connectedDevice.turnOn();
         }
     }
 
     public static void main(String[] args) {
-        Device lightBulb = new LightBulb(); // code to interface
-        Switch lightSwitch = new Switch(lightBulb);
-        lightSwitch.operate(); // prints "Light is ON!"
+        Device bulb = new LightBulb();
+        Switch powerSwitch = new Switch(bulb);
+        powerSwitch.operate();
     }
 }
